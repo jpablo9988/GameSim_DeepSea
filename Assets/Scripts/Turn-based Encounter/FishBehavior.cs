@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class FishBehavior : MonoBehaviour
     [SerializeField]
     [Tooltip("Z Position")]
     private float _zPosition = 7;
-    private Vector3 _peekFishPosition;
+    private Vector3 _fishPosition;
 
     private Camera mainCamera;
 
@@ -34,7 +35,20 @@ public class FishBehavior : MonoBehaviour
     [SerializeField]
     private float peekSpeed = 10;
 
+    [SerializeField]
+    private float runAwaySpeed = 100;
+
+    [SerializeField]
+    private float runAwayTimer = 1;
+
+    [SerializeField]
+    private float runAwayDuration = 1;
+
     private IEnumerator peekCoroutine;
+    private IEnumerator timerCoroutine;
+    private IEnumerator moveCoroutine;
+
+    public bool FishTrapped { get; private set; }
 
     private SpriteRenderer fishVisuals;
     private void Awake()
@@ -60,8 +74,18 @@ public class FishBehavior : MonoBehaviour
     {
         if (Mathf.Abs(angle) <= showFishAngleLimit)
         {
+            HideFish(false);
+            _fishPosition = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f + _vSkew, _zPosition));
+            this.transform.position = _fishPosition;
             // Fish will be on the middle, shaking.
+            // Animator.Bool("Shake") = true;
             // After a few seconds, go back.
+            // Coroutine -> waitForSeconds to Function
+            Debug.Log("Will start to do timer");
+            timerCoroutine = TimerMethods.GeneralTimer(runAwayTimer, MoveAway);
+            StartCoroutine(timerCoroutine);
+            // if Photo -> stop Shaking. Fish will remain there
+            // if Light turns off -> hide. 
         }
         else if (Mathf.Abs(angle) <= peekAngleLimit && peekTimer <= 0)
         {
@@ -72,10 +96,10 @@ public class FishBehavior : MonoBehaviour
     {
         CalculatePeekingFishPosition(isRight);
         HideFish(false);
-        this.transform.position = _peekFishPosition;
+        this.transform.position = _fishPosition;
         peekCoroutine = MoveOutOfCamera(isRight);
         StartCoroutine(peekCoroutine);
-        peekTimer = Random.Range(peekTimerLimit - peekTimerVariance
+        peekTimer = UnityEngine.Random.Range(peekTimerLimit - peekTimerVariance
            , peekTimerLimit + peekTimerVariance);
     }
     private IEnumerator MoveOutOfCamera(bool isRight)
@@ -98,6 +122,18 @@ public class FishBehavior : MonoBehaviour
         peekCoroutine = null;
         HideFish(true);
     }
+    private IEnumerator MoveForATime (Vector3 direction, float time, Action<bool> function = null )
+    {
+        float localTimer = time;
+        while (localTimer > 0)
+        {
+            this.transform.Translate(runAwaySpeed * Time.deltaTime * direction);
+            localTimer -= Time.deltaTime;
+            yield return null;
+        }
+        moveCoroutine = null;
+        function?.Invoke(true);
+    }
     private bool IsFishOutOfCamera(bool isRight)
     {
         bool isOutOfCamera = false;
@@ -117,7 +153,7 @@ public class FishBehavior : MonoBehaviour
     {
         float localHSkew = _hSkew, localHPosition = 1;
 
-        if (!isRight)
+        if (isRight)
         {
             localHSkew *= -1;
         }
@@ -125,9 +161,16 @@ public class FishBehavior : MonoBehaviour
         {
             localHPosition -= 1;
         }
-        _peekFishPosition = mainCamera.ViewportToWorldPoint(
+        _fishPosition = mainCamera.ViewportToWorldPoint(
             new Vector3 (localHPosition + localHSkew, 0.5f + _vSkew, _zPosition));
 
+    }
+
+    private void MoveAway()
+    {
+        //Stop shaking.
+        moveCoroutine = MoveForATime(Vector3.forward, runAwayDuration, HideFish);
+        StartCoroutine(moveCoroutine);
     }
 
     public void SetZPosition(float z)
@@ -137,9 +180,11 @@ public class FishBehavior : MonoBehaviour
 
     public void HideFish(bool hide)
     {
-        if (peekCoroutine != null && hide)
+        if (hide)
         {
-            StopCoroutine(peekCoroutine);
+            //Stop shaking.
+            StopAllCoroutines();
+            timerCoroutine = null;
         }
         this.fishVisuals.enabled = !hide;
     }

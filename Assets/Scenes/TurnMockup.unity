@@ -289,8 +289,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636533285}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.9392103, z: -0, w: 0.3433424}
+  m_LocalPosition: {x: -5.724365, y: 0, z: -6.662627}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -298,7 +298,7 @@ Transform:
   - {fileID: 1644031898}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 139.839, z: 0}
 --- !u!114 &636533287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,11 +812,15 @@ MonoBehaviour:
   _vSkew: 0.06
   _hSkew: 0.1
   _zPosition: 7
-  peekTimerLimit: 1
+  peekTimerLimit: 2
   peekTimerVariance: 0.5
   peekTimer: 0
-  peekAngleLimit: 180
+  peekAngleLimit: 80
+  showFishAngleLimit: 20
   peekSpeed: 7
+  runAwaySpeed: 100
+  runAwayTimer: 0.7
+  runAwayDuration: 1
 --- !u!1 &1471035782
 GameObject:
   m_ObjectHideFlags: 0

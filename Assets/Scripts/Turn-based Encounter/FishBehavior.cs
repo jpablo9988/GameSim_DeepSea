@@ -51,6 +51,8 @@ public class FishBehavior : MonoBehaviour
     public bool FishTrapped { get; private set; }
 
     private SpriteRenderer fishVisuals;
+
+    private bool isFishCaught = false;
     private void Awake()
     {
        
@@ -62,6 +64,7 @@ public class FishBehavior : MonoBehaviour
     {
         peekTimer = 0;
         HideFish(true);
+        SetZPosition(_zPosition);
     }
     private void Update()
     {
@@ -75,17 +78,13 @@ public class FishBehavior : MonoBehaviour
         if (Mathf.Abs(angle) <= showFishAngleLimit)
         {
             HideFish(false);
+            isFishCaught = true;
             _fishPosition = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f + _vSkew, _zPosition));
             this.transform.position = _fishPosition;
             // Fish will be on the middle, shaking.
-            // Animator.Bool("Shake") = true;
-            // After a few seconds, go back.
-            // Coroutine -> waitForSeconds to Function
-            Debug.Log("Will start to do timer");
+            // Animator.Bool("Shake") = true.
             timerCoroutine = TimerMethods.GeneralTimer(runAwayTimer, MoveAway);
             StartCoroutine(timerCoroutine);
-            // if Photo -> stop Shaking. Fish will remain there
-            // if Light turns off -> hide. 
         }
         else if (Mathf.Abs(angle) <= peekAngleLimit && peekTimer <= 0)
         {
@@ -169,6 +168,7 @@ public class FishBehavior : MonoBehaviour
     private void MoveAway()
     {
         //Stop shaking.
+        //Call on changing movement.
         moveCoroutine = MoveForATime(Vector3.forward, runAwayDuration, HideFish);
         StartCoroutine(moveCoroutine);
     }
@@ -185,6 +185,11 @@ public class FishBehavior : MonoBehaviour
             //Stop shaking.
             StopAllCoroutines();
             timerCoroutine = null;
+            if (isFishCaught)
+            {
+                EventManager.Instance.FishEscapedEvent();
+                isFishCaught = false;
+            }
         }
         this.fishVisuals.enabled = !hide;
     }

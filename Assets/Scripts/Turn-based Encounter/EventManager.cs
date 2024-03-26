@@ -9,6 +9,7 @@ public class EventManager : MonoBehaviour
     public delegate void BoolAction(bool value);
 
     public static event BoolAction FlashlightAction;
+    public static event NoParamsAction FishEscapedAction;
 
     public static EventManager Instance { get; private set; }
 
@@ -29,5 +30,9 @@ public class EventManager : MonoBehaviour
     public void FlashlightEvent(bool isTurned)
     {
         FlashlightAction?.Invoke(isTurned);
+    }
+    public void FishEscapedEvent()
+    {
+        FishEscapedAction?.Invoke();
     }
 }

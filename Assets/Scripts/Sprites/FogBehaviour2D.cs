@@ -49,7 +49,6 @@ public class FogBehaviour2D : MonoBehaviour
 
 
         _currAlpha = 1 - (distance / (_maxValue - _minValue));
-        Debug.Log(_currAlpha);
         _currColor = Color.Lerp(_fogColor, _startingColor, _currAlpha);
 
         _currColor.a = _currAlpha;

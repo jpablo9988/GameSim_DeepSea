@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class CircularRigController : MonoBehaviour
 {
-    [SerializeField]
-    [Tooltip("Z Radius")]
-    private float circleRigRadius = 7f;
 
     private FishBehavior fish;
     [SerializeField]

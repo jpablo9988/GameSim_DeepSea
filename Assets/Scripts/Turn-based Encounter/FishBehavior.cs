@@ -52,12 +52,17 @@ public class FishBehavior : MonoBehaviour
 
     private SpriteRenderer fishVisuals;
 
+    [SerializeField]
+    private ShakingAnimations shake;
+
+
     private bool isFishCaught = false;
     private void Awake()
     {
        
         mainCamera = Camera.main;
         fishVisuals = GetComponent<SpriteRenderer>();
+        shake = GetComponent<ShakingAnimations>();
         
     }
     private void Start()
@@ -78,11 +83,13 @@ public class FishBehavior : MonoBehaviour
         if (Mathf.Abs(angle) <= showFishAngleLimit)
         {
             HideFish(false);
+
             isFishCaught = true;
             _fishPosition = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f + _vSkew, _zPosition));
             this.transform.position = _fishPosition;
             // Fish will be on the middle, shaking.
             // Animator.Bool("Shake") = true.
+            shake.ShakeObject(true);
             timerCoroutine = TimerMethods.GeneralTimer(runAwayTimer, MoveAway);
             StartCoroutine(timerCoroutine);
         }
@@ -133,6 +140,8 @@ public class FishBehavior : MonoBehaviour
         moveCoroutine = null;
         function?.Invoke(true);
     }
+
+    //BUG: weird fish outtage.
     private bool IsFishOutOfCamera(bool isRight)
     {
         bool isOutOfCamera = false;
@@ -168,6 +177,7 @@ public class FishBehavior : MonoBehaviour
     private void MoveAway()
     {
         //Stop shaking.
+        shake.ShakeObject(false);
         //Call on changing movement.
         moveCoroutine = MoveForATime(Vector3.forward, runAwayDuration, HideFish);
         StartCoroutine(moveCoroutine);
@@ -183,6 +193,7 @@ public class FishBehavior : MonoBehaviour
         if (hide)
         {
             //Stop shaking.
+            shake.ShakeObject(false);
             StopAllCoroutines();
             timerCoroutine = null;
             if (isFishCaught)
@@ -192,6 +203,10 @@ public class FishBehavior : MonoBehaviour
             }
         }
         this.fishVisuals.enabled = !hide;
+    }
+    public bool FishCaught()
+    {
+        return isFishCaught;
     }
 
 

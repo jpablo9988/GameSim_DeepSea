@@ -36,7 +36,7 @@ public class Controls_TurnBased : MonoBehaviour
             }
         }
     }
-    public void activateControls(bool value)
+    public void ActivateControls(bool value)
     {
         controlsActive = value;
     }

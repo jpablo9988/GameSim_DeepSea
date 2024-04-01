@@ -125,7 +125,7 @@
             "type": "UnityEngine.Shader",
             "ignore": true,
             "defaultInstantiationMode": 1,
-            "supportsModification": true
+            "supportsModification": true        
         },
         {
             "userAdded": false,

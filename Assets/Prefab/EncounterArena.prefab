@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 5720225966833670364}
   - component: {fileID: 5720225966833670367}
   - component: {fileID: 5720225966833670366}
+  - component: {fileID: 5168859831838824506}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Untagged
@@ -214,11 +215,8 @@ MonoBehaviour:
   peekTimerLimit: 2
   peekTimerVariance: 0.5
   peekTimer: 0
-  peekAngleLimit: 80
-  showFishAngleLimit: 20
   peekSpeed: 7
   runAwaySpeed: 50
-  runAwayTimer: 0.7
   runAwayDuration: 1
 --- !u!114 &5720225966833670366
 MonoBehaviour:
@@ -237,6 +235,20 @@ MonoBehaviour:
   _maxValue: 10
   _target: {fileID: 0}
   _material: {fileID: 0}
+--- !u!114 &5168859831838824506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5720225966833670363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3387ac7736fc383478a44eed2c1c44b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0.05
+  frequency: 50
 --- !u!1 &5720225967125816492
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abebd3bf3bf78e46885c75375b8cb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleRigRadius: 7
   fishArea: {fileID: 5720225965984100639}
   minRotateRange: 30
   maxRotateRange: 120

@@ -10,6 +10,9 @@ public class EventManager : MonoBehaviour
 
     public static event BoolAction FlashlightAction;
     public static event NoParamsAction FishEscapedAction;
+    public static event BoolAction PauseGame;
+    public static event NoParamsAction PhotoTaken;
+    public static event NoParamsAction WillTakePhoto;
 
     public static EventManager Instance { get; private set; }
 
@@ -34,5 +37,17 @@ public class EventManager : MonoBehaviour
     public void FishEscapedEvent()
     {
         FishEscapedAction?.Invoke();
+    }
+    public void SetGamePaused(bool isPaused)
+    {
+        PauseGame?.Invoke(isPaused);
+    }
+    public void TakePhoto()
+    {
+        PhotoTaken?.Invoke();
+    }
+    public void PrePhotoCheck()
+    {
+        WillTakePhoto?.Invoke();
     }
 }

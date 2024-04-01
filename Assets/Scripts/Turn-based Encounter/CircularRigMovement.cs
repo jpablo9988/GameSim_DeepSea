@@ -24,4 +24,8 @@ public class CircularRigMovement : MonoBehaviour
     {
         isRotating = value;
     }
+    public void SetVelocity(float value)
+    {
+        degreesPerSecond = value;
+    }
 }

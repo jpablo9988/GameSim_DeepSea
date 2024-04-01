@@ -5,7 +5,7 @@ using UnityEngine;
 public class CircularRigController : MonoBehaviour
 {
 
-    private FishBehavior fish;
+    private FishBehavior fishBehavior;
     [SerializeField]
     [Tooltip("FishObject")]
     private GameObject fishArea;
@@ -16,31 +16,26 @@ public class CircularRigController : MonoBehaviour
     [SerializeField]
     private float maxRotateRange = 120.0f;
 
-    [SerializeField]
-    private bool willRotate = true;
+    private bool willRotate;
     private Transform cameraTransform;
     private CircularRigMovement movementControls;
+    private bool willRandomlyRotate = false;
 
     private void Awake()
     {
-        fish = GetComponentInChildren<FishBehavior>();  
+        fishBehavior = GetComponentInChildren<FishBehavior>();  
         movementControls = GetComponent<CircularRigMovement>();
         cameraTransform = Camera.main.transform;
-    }
-    private void Start()
-    {
-        if (willRotate) this.movementControls.IsRotating(true);
-        //fish.SetZPosition(circleRigRadius);
     }
     private void OnEnable()
     {
         EventManager.FlashlightAction += ManageFishVisuals;
-        EventManager.FishEscapedAction += RandmlyRotateRig;
+        EventManager.FishEscapedAction += RandomlyRotateRig;
     }
     private void OnDisable()
     {
         EventManager.FlashlightAction -= ManageFishVisuals;
-        EventManager.FishEscapedAction -= RandmlyRotateRig;
+        EventManager.FishEscapedAction -= RandomlyRotateRig;
     }
     public void ManageFishVisuals(bool isTurned)
     {
@@ -54,18 +49,18 @@ public class CircularRigController : MonoBehaviour
             if (willRotate) this.movementControls.IsRotating(false);
             if (yAngle > 0)
             {
-                fish.ExecuteFishVisuals(true, yAngle);
+                fishBehavior.ExecuteFishVisuals(true, yAngle);
             }
             else
             {
-                fish.ExecuteFishVisuals(false, yAngle);
+                fishBehavior.ExecuteFishVisuals(false, yAngle);
             }
         }
         else
         {
             if (willRotate)
                 this.movementControls.IsRotating(true);
-            fish.HideFish(true);
+            fishBehavior.HideFish(true);
         }
     }
     private Vector3 GetDirectionVectorToTarget(Vector3 position, Vector3 target)
@@ -74,8 +69,21 @@ public class CircularRigController : MonoBehaviour
         float distance = heading.magnitude;
         return heading / distance;
     }
-    private void RandmlyRotateRig()
+    private void RandomlyRotateRig()
     {
-        movementControls.ChangeRotation(minRotateRange, maxRotateRange);
+        if (willRandomlyRotate)
+        {
+            movementControls.ChangeRotation(minRotateRange, maxRotateRange);
+        }
+    }
+    public void IsCircularRigRotating(bool value, float velocity = 0)
+    {
+        willRotate = value;
+        movementControls.IsRotating(value);
+        if (velocity != 0) movementControls.SetVelocity(velocity);
+    }
+    public void WillRandomlyRotate(bool value)
+    {
+        willRandomlyRotate = value;
     }
 }

@@ -8,8 +8,7 @@ public class FlashlightManager : MonoBehaviour
     private GameObject flashlightObject;
 
     public bool IsFlashLightActive { get; private set; }
-
-    private void Awake()
+    private void OnEnable()
     {
         flashlightObject.SetActive(false);
         IsFlashLightActive = false;

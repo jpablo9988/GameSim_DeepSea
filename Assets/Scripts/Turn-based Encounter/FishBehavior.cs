@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(ShakingAnimations))]
 public class FishBehavior : MonoBehaviour
 {
     [SerializeField]
@@ -24,13 +26,6 @@ public class FishBehavior : MonoBehaviour
     [SerializeField]
     private float peekTimer = 0.0f;
 
-    [SerializeField]
-    [Range(0, 180)]
-    private float peekAngleLimit = 10.0f;
-
-    [SerializeField]
-    [Range(0, 180)]
-    private float showFishAngleLimit = 5.0f;
 
     [SerializeField]
     private float peekSpeed = 10;
@@ -38,34 +33,35 @@ public class FishBehavior : MonoBehaviour
     [SerializeField]
     private float runAwaySpeed = 100;
 
-    [SerializeField]
-    private float runAwayTimer = 1;
 
     [SerializeField]
     private float runAwayDuration = 1;
 
+    public bool WillHurtPlayer { get; set; }
+
+
+    private float peekAngleLimit = 10.0f;
+    private float showFishAngleLimit = 5.0f;
+    private float runAwayTimer = 1;
+    private bool isFishCaught = false;
+    private bool willRunAway = false;
+    private bool willPeek = true;
     private IEnumerator peekCoroutine;
     private IEnumerator timerCoroutine;
     private IEnumerator moveCoroutine;
 
-    public bool FishTrapped { get; private set; }
-
+    // -- Dependencies -- //
     private SpriteRenderer fishVisuals;
-
-    [SerializeField]
     private ShakingAnimations shake;
 
-
-    private bool isFishCaught = false;
     private void Awake()
     {
-       
         mainCamera = Camera.main;
         fishVisuals = GetComponent<SpriteRenderer>();
         shake = GetComponent<ShakingAnimations>();
         
     }
-    private void Start()
+    private void OnEnable()
     {
         peekTimer = 0;
         HideFish(true);
@@ -89,13 +85,19 @@ public class FishBehavior : MonoBehaviour
             this.transform.position = _fishPosition;
             // Fish will be on the middle, shaking.
             // Animator.Bool("Shake") = true.
-            shake.ShakeObject(true);
-            timerCoroutine = TimerMethods.GeneralTimer(runAwayTimer, MoveAway);
-            StartCoroutine(timerCoroutine);
+            if (willRunAway)
+            {
+                shake.ShakeObject(true);
+                timerCoroutine = TimerMethods.GeneralTimer(runAwayTimer, MoveAway);
+                StartCoroutine(timerCoroutine);
+            }
         }
         else if (Mathf.Abs(angle) <= peekAngleLimit && peekTimer <= 0)
         {
-            Peek(isRight);
+            if (willPeek)
+            {
+                Peek(isRight);
+            }
         }
     }  
     public void Peek (bool isRight)
@@ -198,16 +200,23 @@ public class FishBehavior : MonoBehaviour
             timerCoroutine = null;
             if (isFishCaught)
             {
-                EventManager.Instance.FishEscapedEvent();
                 isFishCaught = false;
+                EventManager.Instance.FishEscapedEvent();
             }
         }
         this.fishVisuals.enabled = !hide;
     }
-    public bool FishCaught()
+    public bool IsFishCaught()
     {
         return isFishCaught;
     }
+    public void SetUpFishProperties(float minAnglePeek, float minAngleCaught, float timeTillRun, bool runAway, bool willPeek)
+    {
+        peekAngleLimit = minAnglePeek;
+        this.showFishAngleLimit = minAngleCaught;
+        runAwayTimer = timeTillRun;
+        willRunAway = runAway;
+        this.willPeek = willPeek;
 
-
+    }
 }

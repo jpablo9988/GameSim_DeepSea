@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Controls_TurnBased : MonoBehaviour
+public class TurnBasedControls : MonoBehaviour
 {
     private CameraBehaviour cameraBehaviour;
     private FlashlightManager flashlight;
+    private CameraFlash flash;
     [SerializeField]
     private bool controlsActive = true;
     void Awake()
     {
         cameraBehaviour = GetComponent<CameraBehaviour>();
         flashlight = GetComponent<FlashlightManager>();
+        flash = GetComponentInChildren<CameraFlash>();  
     }
 
 
@@ -34,10 +36,15 @@ public class Controls_TurnBased : MonoBehaviour
             {
                 flashlight.ActivateFlashlight(false);
             }
+            if (Input.GetButtonDown("TakePhoto"))
+            {
+                flash.ActivateCameraFlash();
+            }
         }
     }
     public void ActivateControls(bool value)
     {
+        flashlight.ActivateFlashlight(false);
         controlsActive = value;
     }
 }

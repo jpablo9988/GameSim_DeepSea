@@ -34,6 +34,7 @@ public class TurnBasedControls : MonoBehaviour
     }
     public void ActivateControls(bool value)
     {
+        cameraBehaviour.UpdateRotation();
         flashControls.ChangeFlashlightState(false);
         controlsActive = value;
     }

@@ -14,11 +14,14 @@ public class TurnBasedCameraBehavior : MonoBehaviour
     void Awake()
     {
         look = transform.eulerAngles;
-        
     }
     public void RotateHorizontalPov(float axis)
     {
         look.y += axis * rotationSpeed;
         transform.eulerAngles = look;
+    }
+    public void UpdateRotation()
+    {
+        look = transform.eulerAngles;
     }
 }

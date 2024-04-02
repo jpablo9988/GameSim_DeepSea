@@ -10,13 +10,14 @@ public class TurnBasedManager : MonoBehaviour
     private GameObject _tbUI;
     [SerializeField]
     private FishBehavior _fish;
-    [SerializeField]
-    private TurnBasedControls _tbControls;
 
     private CanvasGroup _tbUIDetails;
 
     [SerializeField]
     private GameObject _endScreen;
+
+    [SerializeField]
+    private bool isEmpty = false;
 
     private EndScreenManager _endScreenManager;
 
@@ -30,6 +31,7 @@ public class TurnBasedManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        IsTurnedBased(false);
         EventManager.PhotoTaken += TransitionToEndScreen;
         EventManager.WillTakePhoto += CheckIfPhotoSuccess;
     }
@@ -44,7 +46,9 @@ public class TurnBasedManager : MonoBehaviour
         // DO black screen, deactivate controls.
         // Once it's faded out, activate controls.
         TurnBased = value;
-        _arena.SetActive (value);
+        if (!isEmpty)
+            _arena.SetActive (value);
+
         _tbUI.SetActive (value);
         if (value) _tbUIDetails.alpha = 1;
         else _tbUIDetails.alpha = 0;
@@ -78,9 +82,12 @@ public class TurnBasedManager : MonoBehaviour
 
     private void ShowPhoto()
     {
-        _endScreenManager.ShowPhoto();
+        _endScreenManager.ShowPhoto(CheckForInput);
     }
-
+    private void CheckForInput()
+    {
+        StartCoroutine(HasPlayerInput());
+    }
     public void ToExploration()
     {
         StartCoroutine(General2DMethods.FadeImage(_tbUIDetails, 1.0f, false, TurnOffTurnBased));
@@ -90,5 +97,18 @@ public class TurnBasedManager : MonoBehaviour
         EventManager.Instance.FinishTurnBased();
         EventManager.Instance.IsControlsPaused(false);
         IsTurnedBased(false);
+    }
+    private IEnumerator HasPlayerInput()
+    {
+        bool inputTrue = false;
+        while (!inputTrue)
+        {
+            if (Input.anyKeyDown)
+            {
+                inputTrue = true;
+            }
+            yield return null;
+        }
+        ToExploration();
     }
 }

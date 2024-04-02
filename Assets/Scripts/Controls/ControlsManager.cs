@@ -18,7 +18,7 @@ public class ControlsManager : MonoBehaviour
     {
         
         _tbControls = GetComponent<TurnBasedControls>();
-        _flashControls = GetComponent<FlashlightControls>();
+        _fpControls = GetComponent<FPPlayerMovement>();
         _flashControls = GetComponentInChildren<FlashlightControls>();
     }
     private void OnEnable()

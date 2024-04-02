@@ -216,7 +216,7 @@ MonoBehaviour:
   peekTimerVariance: 0.5
   peekTimer: 0
   peekSpeed: 7
-  runAwaySpeed: 50
+  runAwaySpeed: 20
   runAwayDuration: 1
 --- !u!114 &5720225966833670366
 MonoBehaviour:
@@ -260,8 +260,9 @@ GameObject:
   - component: {fileID: 5720225967125816495}
   - component: {fileID: 5720225967125816494}
   - component: {fileID: 5720225967125816481}
+  - component: {fileID: 1870631345}
   m_Layer: 0
-  m_Name: EncounterArena
+  m_Name: FishEncounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,7 +300,6 @@ MonoBehaviour:
   fishArea: {fileID: 5720225965984100639}
   minRotateRange: 30
   maxRotateRange: 120
-  willRotate: 0
 --- !u!114 &5720225967125816481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,3 +313,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   degreesPerSecond: 30
+--- !u!114 &1870631345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5720225967125816492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5a9303e5a4d44408b84bf6ca5b4401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameFish: Testino Patatino
+  texture: {fileID: 2800000, guid: 4243d3d945cb87043a234541fad1a51f, type: 3}
+  minAngleFishPeek: 80
+  minAngleFishCaught: 40
+  timeUntilRunAway: 0.7
+  isTriggerAreaMoving: 0
+  willMoveOnFail: 0
+  willHitPlayerOnFail: 0
+  willRunAway: 0
+  willPeek: 0
+  triggerAreaRotateVelocity: 10
+  portaitLocation: {fileID: 0}

@@ -25,8 +25,6 @@ public class TurnBasedManager : MonoBehaviour
     public bool TurnBased { get; private set; }
     private void Awake()
     {
-        //Debug!
-        TurnBased = true;
         _endScreenManager = _endScreen.GetComponent<EndScreenManager>();
         _tbUIDetails = _tbUI.GetComponent<CanvasGroup>();
     }
@@ -43,9 +41,10 @@ public class TurnBasedManager : MonoBehaviour
     }
     public void IsTurnedBased (bool value)
     {
+        // DO black screen, deactivate controls.
+        // Once it's faded out, activate controls.
         TurnBased = value;
         _arena.SetActive (value);
-        _tbControls.ActivateControls(value);
         _tbUI.SetActive (value);
         if (value) _tbUIDetails.alpha = 1;
         else _tbUIDetails.alpha = 0;
@@ -58,22 +57,13 @@ public class TurnBasedManager : MonoBehaviour
             _endScreenManager.ActivatePhoto(false);
         }
     }
-    public void ActiveInteractables(bool value)
-    {
-        if (TurnBased)
-        {
-            _tbControls.ActivateControls(value);
-            _tbUIDetails.interactable = value;
-        }
-    }
-    
     private void TransitionToEndScreen()
     {
         if (_success)
         {
             _fish.HideFish(true);
             _endScreen.SetActive(true);
-            _tbControls.ActivateControls(false);
+            EventManager.Instance.IsControlsPaused(true);
             _endScreenManager.ShowBlackScreen(ShowPhoto);
         }
         else
@@ -97,6 +87,8 @@ public class TurnBasedManager : MonoBehaviour
     }
     private void TurnOffTurnBased()
     {
+        EventManager.Instance.FinishTurnBased();
+        EventManager.Instance.IsControlsPaused(false);
         IsTurnedBased(false);
     }
 }

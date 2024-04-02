@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraBehaviour : MonoBehaviour
+public class TurnBasedCameraBehavior : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("How fast the camera rotates")]

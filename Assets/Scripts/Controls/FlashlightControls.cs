@@ -2,32 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class TurnBasedControls : MonoBehaviour
+public class FlashlightControls : MonoBehaviour
 {
-    private CameraBehaviour cameraBehaviour;
     private FlashlightManager flashlight;
-    private CameraFlash flash;
     [SerializeField]
     private bool controlsActive = true;
+
     void Awake()
     {
-        cameraBehaviour = GetComponent<CameraBehaviour>();
         flashlight = GetComponent<FlashlightManager>();
-        flash = GetComponentInChildren<CameraFlash>();  
     }
 
-
+    // Update is called once per frame
     void Update()
     {
         if (controlsActive)
         {
-            float x = Input.GetAxis("Horizontal");
-
-            if (!flashlight.IsFlashLightActive)
-            {
-                cameraBehaviour.RotateHorizontalPov(x * Time.deltaTime);
-            }
             if (Input.GetButtonDown("Flashlight"))
             {
                 flashlight.ActivateFlashlight(true);
@@ -36,15 +26,21 @@ public class TurnBasedControls : MonoBehaviour
             {
                 flashlight.ActivateFlashlight(false);
             }
-            if (Input.GetButtonDown("TakePhoto"))
-            {
-                flash.ActivateCameraFlash();
-            }
         }
     }
     public void ActivateControls(bool value)
     {
         flashlight.ActivateFlashlight(false);
         controlsActive = value;
+    }
+
+    public bool IsFlashLightActive()
+    {
+        return flashlight.IsFlashLightActive;
+    }
+
+    public void ChangeFlashlightState(bool value)
+    {
+        flashlight.ActivateFlashlight(value);
     }
 }

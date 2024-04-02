@@ -13,6 +13,9 @@ public class EventManager : MonoBehaviour
     public static event BoolAction PauseGame;
     public static event NoParamsAction PhotoTaken;
     public static event NoParamsAction WillTakePhoto;
+    public static event BoolAction PauseControls;
+    public static event BoolAction Interacted;
+    public static event NoParamsAction TurnBasedDone;
 
     public static EventManager Instance { get; private set; }
 
@@ -49,5 +52,19 @@ public class EventManager : MonoBehaviour
     public void PrePhotoCheck()
     {
         WillTakePhoto?.Invoke();
+    }
+    public void InteractWithSomething(bool value)
+    {
+        Interacted?.Invoke(value);
+    }
+
+    public void FinishTurnBased()
+    {
+        TurnBasedDone?.Invoke();
+    }
+
+    public void IsControlsPaused(bool value)
+    {
+        PauseControls?.Invoke(value);
     }
 }

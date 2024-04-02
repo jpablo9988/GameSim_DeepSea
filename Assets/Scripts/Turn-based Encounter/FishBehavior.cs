@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -58,8 +57,7 @@ public class FishBehavior : MonoBehaviour
     {
         mainCamera = Camera.main;
         fishVisuals = GetComponent<SpriteRenderer>();
-        shake = GetComponent<ShakingAnimations>();
-        
+        shake = GetComponent<ShakingAnimations>();   
     }
     private void OnEnable()
     {

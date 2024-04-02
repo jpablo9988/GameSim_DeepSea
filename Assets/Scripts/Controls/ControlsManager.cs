@@ -25,11 +25,13 @@ public class ControlsManager : MonoBehaviour
     {
         EventManager.Interacted += ActivateTurnBasedControls;
         EventManager.PauseControls += PauseControls;
+        EventManager.TurnBasedDone += FinishTurnBased;
     }
     private void OnDisable()
     {
         EventManager.Interacted -= ActivateTurnBasedControls;
         EventManager.PauseControls -= PauseControls;
+        EventManager.TurnBasedDone -= FinishTurnBased;
     }
     private void Start()
     {
@@ -55,6 +57,12 @@ public class ControlsManager : MonoBehaviour
         _tbControls.ActivateControls(value);
         _fpControls.ActivateControls(!value);
 
+    }
+    private void FinishTurnBased()
+    {
+        IsTurnBased = false;
+        turnBasedLocal = IsTurnBased;
+        PauseControls(false);
     }
     private void PauseControls(bool value)
     {

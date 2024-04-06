@@ -203,6 +203,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9181172286629714074, guid: ff1fed0ac7af182479b5a07f98245f39, type: 3}
+      propertyPath: m_Color.b
+      value: 0.20287468
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181172286629714074, guid: ff1fed0ac7af182479b5a07f98245f39, type: 3}
+      propertyPath: m_Color.g
+      value: 0.2576608
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181172286629714074, guid: ff1fed0ac7af182479b5a07f98245f39, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9150943
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181172286629714074, guid: ff1fed0ac7af182479b5a07f98245f39, type: 3}
+      propertyPath: m_Intensity
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff1fed0ac7af182479b5a07f98245f39, type: 3}
 --- !u!20 &19106474 stripped
@@ -4402,7 +4418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1254905539
 Light:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class OxygenBar : MonoBehaviour
     private void Awake()
     {
         OxygenActive = false;
-        SetMaxOxygen(20);
+        SetMaxOxygen(180);
     }
     private void Update()
     {

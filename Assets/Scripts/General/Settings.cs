@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Settings
 {
     // --- VOLUME ---- //
-    public static float Volume = 0.85f;
+    public static float Volume = 0.50f;
     // --- FULL_SCREEN ---- //
     public static bool IsFullScreen = true;
 

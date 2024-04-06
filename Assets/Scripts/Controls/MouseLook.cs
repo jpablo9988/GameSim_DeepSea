@@ -38,10 +38,13 @@ public class MouseLook : MonoBehaviour
 
     public void ActivateControls(bool value)
     {
-        //Reset camera rotations.
-        transform.localRotation = Quaternion.Euler(0, 0, 0);
-        //Reset flashlight rotation.
-        flashLightBody.localRotation = Quaternion.Euler(0, 0f, 0f);
+        if (value == false)
+        {
+            //Reset camera rotations.
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            //Reset flashlight rotation.
+            flashLightBody.localRotation = Quaternion.Euler(0, 0f, 0f);
+        }
         controlsActive = value;
     }
 }

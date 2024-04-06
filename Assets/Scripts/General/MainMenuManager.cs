@@ -18,7 +18,7 @@ public class MainMenuManager : MonoBehaviour
         //Pull up confirmation panel.
         //ELSE --
         MusicManager.Instance.StopAudio(fadeDuration);
-        GameManager.Instance.LoadScene(SceneIndex.TITLE_SCREEN, SceneIndex.ARENA, true);
+        GameManager.Instance.StartGame();
     }
     public void ContinueGame()
     {

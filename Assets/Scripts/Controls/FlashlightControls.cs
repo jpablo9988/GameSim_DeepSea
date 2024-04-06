@@ -30,17 +30,11 @@ public class FlashlightControls : MonoBehaviour
     }
     public void ActivateControls(bool value)
     {
-        flashlight.ActivateFlashlight(false);
         controlsActive = value;
     }
 
     public bool IsFlashLightActive()
     {
         return flashlight.IsFlashLightActive;
-    }
-
-    public void ChangeFlashlightState(bool value)
-    {
-        flashlight.ActivateFlashlight(value);
     }
 }

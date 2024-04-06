@@ -16,7 +16,6 @@ public class ControlsManager : MonoBehaviour
 
     void Awake()
     {
-        
         _tbControls = GetComponent<TurnBasedControls>();
         _fpControls = GetComponent<FPPlayerMovement>();
         _flashControls = GetComponentInChildren<FlashlightControls>();
@@ -64,7 +63,7 @@ public class ControlsManager : MonoBehaviour
         turnBasedLocal = IsTurnBased;
         PauseControls(false);
     }
-    private void PauseControls(bool value)
+    public void PauseControls(bool value)
     {
         if (!value)
         {
@@ -82,6 +81,7 @@ public class ControlsManager : MonoBehaviour
             _tbControls.ActivateControls(!value);
             _fpControls.ActivateControls(!value);
         }
+        _flashControls.ActivateControls(!value);
         this.InteractButton = !value;
     }
 }

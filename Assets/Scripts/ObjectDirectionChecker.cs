@@ -6,6 +6,11 @@ public class ObjectDirectionChecker : MonoBehaviour
     public Transform Player;
     [SerializeField]
     private Transform objectToCheck;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float angleLimit;
+
+    private RadarAnimations animManager;
 
     private bool willDetectObject;
     private bool isInTopOfObject;
@@ -21,6 +26,10 @@ public class ObjectDirectionChecker : MonoBehaviour
             Debug.LogWarning("There are multiple Object Direction Checkers. Bad");
             Destroy(this);
         }
+        if (!TryGetComponent(out animManager))
+        {
+            animManager = GetComponentInChildren<RadarAnimations>();  
+        }
     }
     void Update()
     {
@@ -28,37 +37,41 @@ public class ObjectDirectionChecker : MonoBehaviour
         {
             Vector3 playerPosition = Player.position;
             Vector3 objectPosition = objectToCheck.position;
-
-            Vector3 direction = objectPosition - playerPosition;
-
-            string directionText = "";
-
-            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
-            {
-                directionText = (direction.x > 0) ? "East" : "West";
-            }
-            else
-            {
-                directionText = (direction.z > 0) ? "North" : "South";
-            }
-
-            Debug.Log("Player is standing " + directionText + " of the object.");
+            Vector3 direction = playerPosition - objectPosition;
+            SetAnimations(direction);
         }
         else if (isInTopOfObject)
         {
-            Debug.Log("Player is on top of object");
+            SetAlert();
         }
+    }
+    private void SetAnimations(Vector3 direction)
+    {
+        float distH = Mathf.Abs(direction.x), distV = Mathf.Abs(direction.z);
+        float X = direction.x / (distH + distV);
+        float Z = direction.z / (distH + distV);
+        animManager.SetDirections(X, Z);
+    }
+    private void SetAlert()
+    {
+        animManager.SetDirections(0, 0);
+    }
+    private void ActivateAnims(bool value)
+    {
+        animManager.IsRadarOn(value);
     }
     public void SetObject(Transform transform)
     {
         isInTopOfObject = false;
         willDetectObject = true;
+        ActivateAnims(true);
         this.objectToCheck = transform;
     }
     public void FinishLocatingObject()
     {
         isInTopOfObject = false;
         willDetectObject = false;
+        ActivateAnims(false);
         this.objectToCheck = null;
     }
     public void PlayerOnObject(bool value)

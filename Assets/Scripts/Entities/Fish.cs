@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,9 @@ public class Fish : MonoBehaviour
     [SerializeField]
     private float triggerAreaRotateVelocity = 10.0f;
 
+    [SerializeField]
+    private TextMeshProUGUI nameField;
+
 
     
 
@@ -59,5 +63,6 @@ public class Fish : MonoBehaviour
 
         // -- Set-up Portait -- //
         portaitLocation.texture = texture;
+        nameField.text = nameFish;
     }
 }

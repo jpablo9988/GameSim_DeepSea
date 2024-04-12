@@ -17,7 +17,8 @@ public class CircularRigController : MonoBehaviour
     private float maxRotateRange = 120.0f;
 
     private bool willRotate;
-    private Transform cameraTransform;
+    [SerializeField]
+    private Transform playerTransform;
     private CircularRigMovement movementControls;
     private bool willRandomlyRotate = false;
 
@@ -25,7 +26,6 @@ public class CircularRigController : MonoBehaviour
     {
         fishBehavior = GetComponentInChildren<FishBehavior>();  
         movementControls = GetComponent<CircularRigMovement>();
-        cameraTransform = Camera.main.transform;
     }
     private void OnEnable()
     {
@@ -42,9 +42,9 @@ public class CircularRigController : MonoBehaviour
         if (isTurned)
         {
   
-            Vector3 fishAreaDirection = GetDirectionVectorToTarget(cameraTransform.position
+            Vector3 fishAreaDirection = GetDirectionVectorToTarget(playerTransform.position
                 , fishArea.transform.position);
-            Vector3 fowardDirection = cameraTransform.forward;
+            Vector3 fowardDirection = playerTransform.forward;
             float yAngle = Vector3.SignedAngle(fishAreaDirection, fowardDirection, Vector3.up) * -1;
             if (willRotate) this.movementControls.IsRotating(false);
             if (yAngle > 0)

@@ -16,6 +16,7 @@ public class FishBehavior : MonoBehaviour
     private float _zPosition = 7;
     private Vector3 _fishPosition;
 
+    [SerializeField]
     private Camera mainCamera;
 
     [SerializeField]
@@ -55,7 +56,6 @@ public class FishBehavior : MonoBehaviour
 
     private void Awake()
     {
-        mainCamera = Camera.main;
         fishVisuals = GetComponent<SpriteRenderer>();
         shake = GetComponent<ShakingAnimations>();   
     }

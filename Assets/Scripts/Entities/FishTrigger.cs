@@ -21,11 +21,13 @@ public class FishTrigger : MonoBehaviour
             EmptyTBCamera.Instance.Overwriten = true;
             if (player == null)
                 player = other.gameObject.transform;
+
             if (fishArena != null)
             {
                 EventManager.Interacted += ActivateTurnBased;
             }
-            Debug.Log("Player triggered event");
+            ObjectDirectionChecker.Radar.PlayerOnObject(true);
+            Debug.Log("Player is in fish Area");
         }
     }
 
@@ -38,12 +40,13 @@ public class FishTrigger : MonoBehaviour
             {
                 EventManager.Interacted -= ActivateTurnBased;
             }
-            Debug.Log("Player exited event");
+            ObjectDirectionChecker.Radar.PlayerOnObject(false);
+            Debug.Log("Player exited Fish Area");
         }
     }
     private void ActivateTurnBased(bool value)
     {
-        fishArenaLocation = player;
+        fishArenaLocation.position = player.position;
         fishArena.gameObject.SetActive(value);
         fishArena.IsTurnedBased(value);
     }

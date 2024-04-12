@@ -16,8 +16,11 @@ public class EventManager : MonoBehaviour
     public static event BoolAction PauseControls;
     public static event BoolAction Interacted;
     public static event NoParamsAction TurnBasedDone;
+    public static event NoParamsAction StartGameRelay;
+    public static event NoParamsAction ContinueGameRelay;
 
     public static EventManager Instance { get; private set; }
+    public bool WhenInteractedChangeControls { get; set; } = true;
 
     private void Awake()
     {
@@ -55,7 +58,10 @@ public class EventManager : MonoBehaviour
     }
     public void InteractWithSomething(bool value)
     {
-        Interacted?.Invoke(value);
+        if (WhenInteractedChangeControls)
+            Interacted?.Invoke(value);
+        else
+            Interacted?.Invoke(false);
     }
 
     public void FinishTurnBased()
@@ -66,5 +72,13 @@ public class EventManager : MonoBehaviour
     public void IsControlsPaused(bool value)
     {
         PauseControls?.Invoke(value);
+    }
+    public void NewGameState()
+    {
+        StartGameRelay?.Invoke();
+    }
+    public void ContinueGameState()
+    {
+        ContinueGameRelay?.Invoke();
     }
 }

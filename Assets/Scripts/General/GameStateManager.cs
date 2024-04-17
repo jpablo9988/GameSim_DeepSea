@@ -19,6 +19,19 @@ public class GameStateManager : MonoBehaviour
 
     public int FishBeforeBig { get; private set; }
     public int ClearedFish { get; private set; }
+
+    public static GameStateManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Debug.LogWarning("There is more than one GameStateManager. Beware!");
+            Destroy(this);
+        }
+    }
     void Start()
     {
         FirstLoadState();
@@ -62,12 +75,12 @@ public class GameStateManager : MonoBehaviour
     public void PauseGame()
     {
         GameManager.Instance.SwitchGameStates(GameStates.Paused);
-        GameManager.Instance.AddAdditiveScene(SceneIndex.PAUSE_MENU);
+        PauseMenuManager.Instance.ActivatePauseMenu(true);
     }
     public void UnpauseGame()
     {
         GameManager.Instance.SwitchGameStates(GameStates.Playing);
-        GameManager.Instance.UnloadScene(SceneIndex.PAUSE_MENU);
+        PauseMenuManager.Instance.ActivatePauseMenu(false);
     }
-    
+
 }

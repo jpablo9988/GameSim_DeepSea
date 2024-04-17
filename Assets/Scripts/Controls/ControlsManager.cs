@@ -47,6 +47,21 @@ public class ControlsManager : MonoBehaviour
                 turnBasedLocal = !turnBasedLocal;
                 EventManager.Instance.InteractWithSomething(turnBasedLocal);
             }
+            if (Input.GetButtonDown("Pause"))
+            {
+                Debug.Log("Pause");
+                InteractButton = false;
+                GameStateManager.Instance.PauseGame();
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Pause"))
+            {
+                Debug.Log("Unpause");
+                InteractButton = true;
+                GameStateManager.Instance.UnpauseGame();
+            }
         }
     }
     private void ActivateTurnBasedControls(bool value)
@@ -81,7 +96,6 @@ public class ControlsManager : MonoBehaviour
             _tbControls.ActivateControls(!value);
             _fpControls.ActivateControls(!value);
         }
-        _flashControls.ActivateControls(!value);
-        this.InteractButton = !value;
+        _flashControls.ActivateControls(value);    
     }
 }

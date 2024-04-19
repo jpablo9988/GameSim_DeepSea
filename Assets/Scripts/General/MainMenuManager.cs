@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -8,18 +10,44 @@ public class MainMenuManager : MonoBehaviour
     private AudioClip menuMusic;
     [SerializeField]
     private float fadeDuration = 1.0f;
+    [SerializeField]
+    private Button continueButton;
+    [SerializeField]
+    private GameObject confirmationPanel;
+
+    private bool playerExists;
     private void OnEnable()
     {
         MusicManager.Instance.PlayAudio(menuMusic, fadeDuration);
         Cursor.lockState = CursorLockMode.None;
+        CheckSaveData();
     }
-    public void StartNewGame()
+    private void CheckSaveData()
     {
-        //If Continue -> ACTIVE. (if save data has been detected).
-        //Pull up confirmation panel.
-        //ELSE --
-        MusicManager.Instance.StopAudio(fadeDuration);
-        GameManager.Instance.StartGame();
+        if (SaveManager.Instance.GetSaveState() == SaveStates.NEW)
+        {
+            TextMeshProUGUI text = continueButton.GetComponent<TextMeshProUGUI>();
+            continueButton.interactable = false;
+            playerExists = false;
+            text.color = Color.gray;
+        }
+        else
+        {
+            continueButton.interactable = true;
+            playerExists = true;
+        }
+    }
+    public void StartNewGame(bool fromConfirmationPanel)
+    {
+        if (playerExists && !fromConfirmationPanel)
+        {
+            confirmationPanel.SetActive(true);
+        }
+        else
+        {
+            MusicManager.Instance.StopAudio(fadeDuration);
+            GameManager.Instance.StartGame();
+        }
     }
     public void ContinueGame()
     {

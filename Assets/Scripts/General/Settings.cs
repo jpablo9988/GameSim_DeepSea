@@ -9,6 +9,7 @@ public static class Settings
     // --- FULL_SCREEN ---- //
     public static bool IsFullScreen = true;
 
+
     public static void ResetStatsGame()
     {
         Volume = 0.85f;

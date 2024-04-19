@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     private LoadingScreenManager loadingScreenManager;
     public bool IsDoneLoading;
     List<AsyncOperation> scenesLoading = new();
+
+    Coroutine co_LoadScene, co_UnloadScene;
     void Awake()
     {
         State = GameStates.Playing;
@@ -36,10 +38,12 @@ public class GameManager : MonoBehaviour
         {
             case GameStates.Paused:
                 EventManager.Instance.SetGamePaused(true);
+                EventManager.Instance.IsControlsPaused(true);
                 Time.timeScale = 0;
                 break;
             case GameStates.Playing:
                 EventManager.Instance.SetGamePaused(false);
+                EventManager.Instance.IsControlsPaused(false);
                 Time.timeScale = 1;
                 break;
         }
@@ -47,12 +51,16 @@ public class GameManager : MonoBehaviour
     public void LoadScene(SceneIndex unloadScene, SceneIndex loadScene, bool withLoadingScreen, Action onComplete = null)
     {
         if (withLoadingScreen)
-            loadingScreenManager.FadeInLoadingScreen();
-
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)loadScene, LoadSceneMode.Additive));
-        if (withLoadingScreen)
         {
-            StartCoroutine(GetProgressLoadScene((int)unloadScene, onComplete));
+            loadingScreenManager.FadeInLoadingScreen();
+            scenesLoading.Add(SceneManager.UnloadSceneAsync((int)unloadScene));
+            if (co_LoadScene != null) StopCoroutine(co_LoadScene);
+            co_LoadScene = StartCoroutine(GetProgressLoadScene((int)loadScene, onComplete));
+        }
+        else
+        {
+            scenesLoading.Add(SceneManager.LoadSceneAsync((int)loadScene, LoadSceneMode.Additive));
+            scenesLoading.Add(SceneManager.UnloadSceneAsync((int)unloadScene));
         }
     }
     public void UnloadScene(SceneIndex unloadScene)
@@ -81,7 +89,7 @@ public class GameManager : MonoBehaviour
     {
         EventManager.Instance.ContinueGameState();
     }
-    public IEnumerator GetProgressLoadScene(int unloadScene, Action onComplete)
+    public IEnumerator GetProgressLoadScene(int loadScene, Action onComplete)
     {
         IsDoneLoading = false;
         for (int i = 0; i < scenesLoading.Count; i++)
@@ -91,8 +99,11 @@ public class GameManager : MonoBehaviour
                 yield return null;
             }
         }
-        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)unloadScene));
-        StartCoroutine(GetProgessUnloadScene(onComplete));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)loadScene, LoadSceneMode.Additive));
+        if (co_UnloadScene != null)
+            StopCoroutine(co_UnloadScene);
+        co_UnloadScene = StartCoroutine(GetProgessUnloadScene(onComplete));
+        yield return null;
     }
     public IEnumerator GetProgessUnloadScene(Action onComplete)
     {

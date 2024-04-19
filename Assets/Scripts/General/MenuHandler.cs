@@ -1,39 +1,23 @@
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
-    // Main Menu
-    public void start_game()
+    // Pause Menu Functionality
+     public void ContinueGame()
     {
-        Debug.Log("The game is started!!");
+        GameStateManager.Instance.UnpauseGame();
     }
-    public void load_game()
+     public void Settings()
     {
-        Debug.Log("Your game is loading!!");
+        PauseMenuManager.Instance.ActivateSettingsTab(true);
     }
-    public void gallery()
+     public void BackToMainMenu()
     {
-        Debug.Log("You are in the gallery!!");
-    }
-    public void exit()
-    {
-        Application.Quit();
-    }
-
-    // Pause Menu
-     public void continue_game()
-    {
-        Debug.Log("The game has continue!!");
-    }
-     public void game_setting()
-    {
-        Debug.Log("The game setting is open!!");
-    }
-     public void main_menu()
-    {
-        Debug.Log("You are back at the main menu!!");
+        //Go to main menu.
+        // Save last checkpoint. 
+        GameStateManager.Instance.UnpauseGame();
+        GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.TITLE_SCREEN, true);
     }
    
 }

@@ -8,9 +8,10 @@ public class MainMenuManager : MonoBehaviour
     private AudioClip menuMusic;
     [SerializeField]
     private float fadeDuration = 1.0f;
-    private void Start()
+    private void OnEnable()
     {
         MusicManager.Instance.PlayAudio(menuMusic, fadeDuration);
+        Cursor.lockState = CursorLockMode.None;
     }
     public void StartNewGame()
     {

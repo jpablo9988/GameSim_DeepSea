@@ -23,6 +23,10 @@ public class PauseMenuManager : MonoBehaviour
     public void ActivatePauseMenu(bool value)
     {
         pauseMenu.SetActive(value);
+        if (settingsMenu.activeInHierarchy)
+        {
+            settingsMenu.SetActive(value); 
+        }
     }
     public void ActivateSettingsTab(bool value)
     {

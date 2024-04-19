@@ -16,7 +16,7 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   
+        IsMouseLocked(true);
     }
 
     // Update is called once per frame
@@ -46,5 +46,12 @@ public class MouseLook : MonoBehaviour
             flashLightBody.localRotation = Quaternion.Euler(0, 0f, 0f);
         }
         controlsActive = value;
+    }
+    public void IsMouseLocked(bool value)
+    {
+        if (value)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None;
     }
 }

@@ -22,14 +22,15 @@ public class LoadingScreenManager : MonoBehaviour
     public void FadeInLoadingScreen(Action callBackMethod = null )
     {
         imageManager.blocksRaycasts = true;
-        General2DMethods.FadeImage(imageManager, 1.0f, true, callBackMethod);
+        StartCoroutine(General2DMethods.FadeImage(imageManager, 1.0f, true, callBackMethod));
     }
     public void FadeOutLoadingScreen()
     {
-        General2DMethods.FadeImage(imageManager, 1.0f, false, FinishFadingOut);
+        StartCoroutine(General2DMethods.FadeImage(imageManager, 1.0f, false, FinishFadingOut));
     }
     private void FinishFadingOut()
     {
         imageManager.blocksRaycasts = false;
+        StopAllCoroutines();
     }
 }

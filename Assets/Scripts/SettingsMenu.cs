@@ -2,36 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public AudioMixer audioMixer;
-    /*public Dropdown resolutionDropdown;
-    
-    Resolution[] resolutions;
-
-    void Start ()
+    [SerializeField]
+    private Slider slider;
+    [SerializeField]
+    private Toggle toggle;
+    private void OnEnable()
     {
-        resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
-
-        List<string> options = new List<string>();
-        for (int i  = 0; i < resolutions.Length; 1++)
-        {
-            string option = resolutions[i].width + "x" + resolutions[i].height;
-            options.Add(option);
-        }
-        resolutionDropdown.AddOptions(options);
-    }*/
+        slider.value = Settings.Volume;
+        toggle.isOn = Screen.fullScreen;
+    }
 
     public void SetVolume (float volume)
     {
-        audioMixer.SetFloat("volume", volume);
+        Settings.Volume = volume;
+        MusicManager.Instance.RefreshVolume();
     }
 
     public void SetFullscreen (bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+    }
+    public void GoBack()
+    {
+        PauseMenuManager.Instance.ActivateSettingsTab(false);
     }
 }

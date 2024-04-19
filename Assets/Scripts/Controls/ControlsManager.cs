@@ -7,7 +7,7 @@ public class ControlsManager : MonoBehaviour
     private TurnBasedControls _tbControls;
     private FPPlayerMovement _fpControls;
     private FlashlightControls _flashControls;
-
+    private MouseLook _mouseManager;
     public bool IsTurnBased { get; private set; }
 
     private bool turnBasedLocal;
@@ -19,6 +19,7 @@ public class ControlsManager : MonoBehaviour
         _tbControls = GetComponent<TurnBasedControls>();
         _fpControls = GetComponent<FPPlayerMovement>();
         _flashControls = GetComponentInChildren<FlashlightControls>();
+        _mouseManager = GetComponentInChildren<MouseLook>();
     }
     private void OnEnable()
     {
@@ -49,8 +50,6 @@ public class ControlsManager : MonoBehaviour
             }
             if (Input.GetButtonDown("Pause"))
             {
-                Debug.Log("Pause");
-                InteractButton = false;
                 GameStateManager.Instance.PauseGame();
             }
         }
@@ -58,8 +57,6 @@ public class ControlsManager : MonoBehaviour
         {
             if (Input.GetButtonDown("Pause"))
             {
-                Debug.Log("Unpause");
-                InteractButton = true;
                 GameStateManager.Instance.UnpauseGame();
             }
         }
@@ -80,6 +77,9 @@ public class ControlsManager : MonoBehaviour
     }
     public void PauseControls(bool value)
     {
+        InteractButton = !value;
+        _flashControls.ActivateControls(!value);
+        _mouseManager.IsMouseLocked(!value);
         if (!value)
         {
             if (IsTurnBased)
@@ -96,6 +96,5 @@ public class ControlsManager : MonoBehaviour
             _tbControls.ActivateControls(!value);
             _fpControls.ActivateControls(!value);
         }
-        _flashControls.ActivateControls(value);    
     }
 }

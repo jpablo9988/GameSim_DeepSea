@@ -68,6 +68,7 @@ public class MusicManager : MonoBehaviour
             speakers.Stop();
             IsPlayingMusic = false;
         }
+        speakers.volume = Settings.Volume;
         yield break;
     }
     public void PlayAudio(AudioClip audio, float duration)

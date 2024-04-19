@@ -20,6 +20,7 @@ public class SettingsMenu : MonoBehaviour
     {
         Settings.Volume = volume;
         MusicManager.Instance.RefreshVolume();
+        SaveManager.Instance.SaveVolumeSettings();
     }
 
     public void SetFullscreen (bool isFullscreen)
@@ -28,6 +29,9 @@ public class SettingsMenu : MonoBehaviour
     }
     public void GoBack()
     {
-        PauseMenuManager.Instance.ActivateSettingsTab(false);
+        if (PauseMenuManager.Instance != null)
+            PauseMenuManager.Instance.ActivateSettingsTab(false);
+        else
+            this.gameObject.SetActive(false);
     }
 }

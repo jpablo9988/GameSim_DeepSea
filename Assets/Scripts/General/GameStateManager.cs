@@ -72,6 +72,10 @@ public class GameStateManager : MonoBehaviour
             oxyBar.OxygenActive = true;
         }
     }
+    public void ContinueGame()
+    {
+
+    }
     public void PauseGame()
     {
         GameManager.Instance.SwitchGameStates(GameStates.Paused);

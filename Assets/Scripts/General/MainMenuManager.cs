@@ -14,6 +14,8 @@ public class MainMenuManager : MonoBehaviour
     private Button continueButton;
     [SerializeField]
     private GameObject confirmationPanel;
+    [SerializeField]
+    private GameObject settingsMenu;
 
     private bool playerExists;
     private void OnEnable()
@@ -26,7 +28,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (SaveManager.Instance.GetSaveState() == SaveStates.NEW)
         {
-            TextMeshProUGUI text = continueButton.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI text = continueButton.GetComponentInChildren<TextMeshProUGUI>();
             continueButton.interactable = false;
             playerExists = false;
             text.color = Color.gray;
@@ -60,11 +62,11 @@ public class MainMenuManager : MonoBehaviour
     }
     public void Settings()
     {
-        Debug.Log("You are in the settings!!");
+        settingsMenu.SetActive(true);
     }
     public void Gallery()
     {
-        Debug.Log("You are in the gallery!!");
+        confirmationPanel.SetActive(true);
 
     }
 

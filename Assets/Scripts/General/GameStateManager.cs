@@ -87,12 +87,16 @@ public class GameStateManager : MonoBehaviour
         fishList[ClearedFish].SetActive(false);
         SaveManager.Instance.SaveData(SaveManager.Instance.GetSaveState() + 1);
         ClearedFish++;
-        if ((ClearedFish >= fishList.Length) || (SaveManager.Instance.GetSaveState() == SaveStates.VICTORY)) 
+        if ((ClearedFish >= fishList.Length) || (SaveManager.Instance.GetSaveState() == SaveStates.VICTORY))
         {
             SaveManager.Instance.ResetSavedData();
             GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.THE_END, true);
         }
-        fishList[ClearedFish].SetActive(true);
+        else
+        {
+            fishList[ClearedFish].SetActive(true);
+        }
+    
     }
     public void ContinueGame()
     {
@@ -104,6 +108,7 @@ public class GameStateManager : MonoBehaviour
         ClearedFish = ((int)continueState) - 1;
         controlManager.PauseControls(false);
         oxyBar.OxygenActive = true;
+        fishList[ClearedFish].SetActive(true);
     }
     public void PauseGame()
     {

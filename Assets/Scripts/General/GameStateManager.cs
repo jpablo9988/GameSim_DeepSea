@@ -39,11 +39,11 @@ public class GameStateManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager.StartGameRelay += StartBlankSlate;
+        EventManager.StartGameRelay += StartDialogue;
     }
     private void OnDisable()
     {
-        EventManager.StartGameRelay -= StartBlankSlate;
+        EventManager.StartGameRelay -= StartDialogue;
     }
 
     private void FirstLoadState()
@@ -62,6 +62,7 @@ public class GameStateManager : MonoBehaviour
     }
     public void StartBlankSlate()
     {
+        EventManager.DialogueDone -= StartBlankSlate;
         ClearedFish = 0;
         // Set up to dialogue.
         fishList[ClearedFish].SetActive(true);
@@ -71,6 +72,11 @@ public class GameStateManager : MonoBehaviour
             controlManager.PauseControls(false);
             oxyBar.OxygenActive = true;
         }
+    }
+    private void StartDialogue()
+    {
+        EventManager.DialogueDone += StartBlankSlate;
+        StoryDirector.Instance.CallStory("Tutorial");
     }
     public void ContinueGame()
     {

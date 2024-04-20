@@ -18,7 +18,7 @@ public class EventManager : MonoBehaviour
     public static event NoParamsAction TurnBasedDone;
     public static event NoParamsAction StartGameRelay;
     public static event NoParamsAction ContinueGameRelay;
-
+    public static event NoParamsAction DialogueDone;
     public static EventManager Instance { get; private set; }
     public bool WhenInteractedChangeControls { get; set; } = true;
 
@@ -80,5 +80,10 @@ public class EventManager : MonoBehaviour
     public void ContinueGameState()
     {
         ContinueGameRelay?.Invoke();
+    }
+
+    public void DialogueIsDone()
+    {
+        DialogueDone?.Invoke();
     }
 }

@@ -47,6 +47,8 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField]
     private AudioSource talkingSound;
+    [SerializeField]
+    private bool repeatTalkingSoundPerLetter = false;
 
     // ... Properties ... //
     public bool IsTextAdvancable { get; private set; }
@@ -77,8 +79,6 @@ public class DialogueManager : MonoBehaviour
 
     public void EnterDialogue(TextAsset inkFile, string pathString)
     {
-        //situation = 5;
-        //UIManager.Instance.ActivateWorldCanvas(false);
         SetUpInkDialogue(inkFile, pathString);
         ContinueStory();
     }
@@ -87,14 +87,13 @@ public class DialogueManager : MonoBehaviour
         u_dialoguePanel.SetActive(true);
         currentStory = new Story(inkFile.text);
         currentStory.ChoosePathString(pathString);
-        IsDialogueRunning = true;
-        //InputManager.Instance.ActivateDialogueControls(true);
+        IsDialogueRunning = true;    
     }
     public void ExitDialogue()
     {
-        
         u_dialoguePanel.SetActive(false);
         IsDialogueRunning = false;
+        EventManager.Instance.DialogueIsDone();
     }
     private void HandleTags(List<string> currentTags)
     {
@@ -208,6 +207,8 @@ public class DialogueManager : MonoBehaviour
         u_textDisplay.maxVisibleCharacters = 0;
         HandleTags(currentStory.currentTags);
         char[] arraySentence = sentence.ToCharArray();
+        if (!repeatTalkingSoundPerLetter)
+            talkingSound.Play();
         foreach (char letter in arraySentence)
         {
             v_CanFastfowardText = true;
@@ -278,8 +279,10 @@ public class DialogueManager : MonoBehaviour
             u_textDisplay.maxVisibleCharacters++;
             yield return new WaitForSeconds(currDialogueSpeed + pauseTimer);
             letterCounter++;
-            talkingSound.Play();
+            if (repeatTalkingSoundPerLetter)
+                talkingSound.Play();
         }
+        talkingSound.Stop();
         FinishSentenceConditions();
     }
     public bool GetCanAdvanceText()

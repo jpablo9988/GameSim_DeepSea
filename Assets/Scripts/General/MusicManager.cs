@@ -7,6 +7,9 @@ public class MusicManager : MonoBehaviour
     private AudioSource speakers;
     public bool IsPlayingMusic { get; private set; }
     public static MusicManager Instance { get; private set; }
+
+    [SerializeField]
+    private List<AudioSource> audioSources;
     private void Awake()
     {
         if (Instance != null)
@@ -90,6 +93,10 @@ public class MusicManager : MonoBehaviour
         if (IsPlayingMusic)
         {
             speakers.volume = Settings.Volume;
+            for (int i = 0; i < audioSources.Count; i++)
+            {
+                audioSources[i].volume = Settings.Volume;
+            }
         }
     }
 }

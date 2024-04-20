@@ -16,6 +16,8 @@ public class MainMenuManager : MonoBehaviour
     private GameObject confirmationPanel;
     [SerializeField]
     private GameObject settingsMenu;
+    [SerializeField]
+    private GameObject mainMenu;
 
     private bool playerExists;
     private void OnEnable()
@@ -23,6 +25,11 @@ public class MainMenuManager : MonoBehaviour
         MusicManager.Instance.PlayAudio(menuMusic, fadeDuration);
         Cursor.lockState = CursorLockMode.None;
         CheckSaveData();
+        EventManager.DialogueDone += StartBlankSlateGame;
+    }
+    private void OnDisable()
+    {
+        EventManager.DialogueDone -= StartBlankSlateGame;
     }
     private void CheckSaveData()
     {
@@ -48,8 +55,13 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             MusicManager.Instance.StopAudio(fadeDuration);
-            GameManager.Instance.StartGame();
+            mainMenu.SetActive(false);
+            StoryDirector.Instance.CallStory("Introduction");
         }
+    }
+    private void StartBlankSlateGame()
+    {
+        GameManager.Instance.StartGame();
     }
     public void ContinueGame()
     {

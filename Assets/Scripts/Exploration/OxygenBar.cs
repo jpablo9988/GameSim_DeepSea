@@ -51,7 +51,9 @@ public class OxygenBar : MonoBehaviour
         if (slider.value <= 0f)
         {
             OxygenActive = false;
-            Debug.Log("DED");
+            // -- For Testing. End Game -- //
+            SaveManager.Instance.ResetSavedData();
+            GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.THE_END, true);
         }
     }
 

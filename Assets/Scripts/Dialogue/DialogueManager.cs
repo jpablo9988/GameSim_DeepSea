@@ -299,6 +299,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (P_IsCoroutineRunning)
         {
+            talkingSound.Stop();
             FinishSentenceConditions();
             StopCoroutine(c_DialogueCoroutine);
             u_textDisplay.maxVisibleCharacters = v_CurrMaxVisibleCharacters;

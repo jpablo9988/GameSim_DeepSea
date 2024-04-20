@@ -49,6 +49,7 @@ public class FishBehavior : MonoBehaviour
     private IEnumerator peekCoroutine;
     private IEnumerator timerCoroutine;
     private IEnumerator moveCoroutine;
+    public bool WillLoseOxygen = true;
 
     // -- Dependencies -- //
     private SpriteRenderer fishVisuals;

@@ -59,6 +59,7 @@ public class Fish : MonoBehaviour
         rigController.WillRandomlyRotate(willMoveOnFail);
         fishBehavior.SetUpFishProperties(
             minAngleFishPeek, minAngleFishCaught, timeUntilRunAway, willRunAway, willPeek);
+        fishBehavior.WillLoseOxygen = willHitPlayerOnFail;
         fishBehavior.WillHurtPlayer = willHitPlayerOnFail;
 
         // -- Set-up Portait -- //

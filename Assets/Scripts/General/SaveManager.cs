@@ -30,6 +30,10 @@ public class SaveManager : MonoBehaviour
         RetrieveState();
         Settings.Volume = GetVolumeSettings();
     }
+    public void ResetSavedData()
+    {
+        PlayerPrefs.DeleteKey(PLAYER_STATE);
+    }
     private void RetrieveState()
     {
         if (PlayerPrefs.HasKey(PLAYER_STATE))

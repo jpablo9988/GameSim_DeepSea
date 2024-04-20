@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     }
     private void RelayStartGame()
     {
+        SaveManager.Instance.ResetSavedData();
         EventManager.Instance.NewGameState();
     }
     private void RelayContinueGame()

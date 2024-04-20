@@ -31,6 +31,15 @@ public class ObjectDirectionChecker : MonoBehaviour
             animManager = GetComponentInChildren<RadarAnimations>();  
         }
     }
+    private void OnEnable()
+    {
+        EventManager.TurnBasedDone += ResetPlayerRadar;
+    }
+    private void OnDisable()
+    {
+        EventManager.TurnBasedDone -= ResetPlayerRadar;
+
+    }
     void Update()
     {
         if (willDetectObject && !isInTopOfObject)
@@ -77,5 +86,9 @@ public class ObjectDirectionChecker : MonoBehaviour
     public void PlayerOnObject(bool value)
     {
         isInTopOfObject = value;
+    }
+    private void ResetPlayerRadar()
+    {
+        FinishLocatingObject();
     }
 }

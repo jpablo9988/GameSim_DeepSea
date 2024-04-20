@@ -10,6 +10,8 @@ public class TurnBasedManager : MonoBehaviour
     private GameObject _tbUI;
     [SerializeField]
     private FishBehavior _fish;
+    [SerializeField]
+    private OxygenBar bar;
 
     private CanvasGroup _tbUIDetails;
 
@@ -26,6 +28,7 @@ public class TurnBasedManager : MonoBehaviour
     public bool TurnBased { get; private set; }
     private void Awake()
     {
+        
         _endScreenManager = _endScreen.GetComponent<EndScreenManager>();
         _tbUIDetails = _tbUI.GetComponent<CanvasGroup>();
     }
@@ -72,7 +75,10 @@ public class TurnBasedManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Fail. Lose Oxygen");
+            if (_fish.WillLoseOxygen)
+            {
+                bar.ChangeOxygen(-40);
+            }
         }
     }
     private void CheckIfPhotoSuccess()

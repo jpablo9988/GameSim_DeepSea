@@ -48,20 +48,13 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    public void LoadScene(SceneIndex unloadScene, SceneIndex loadScene, bool withLoadingScreen, Action onComplete = null)
+    public void LoadScene(SceneIndex unloadScene, SceneIndex loadScene, Action onComplete = null)
     {
-        if (withLoadingScreen)
-        {
-            loadingScreenManager.FadeInLoadingScreen();
-            scenesLoading.Add(SceneManager.UnloadSceneAsync((int)unloadScene));
-            if (co_LoadScene != null) StopCoroutine(co_LoadScene);
-            co_LoadScene = StartCoroutine(GetProgressLoadScene((int)loadScene, onComplete));
-        }
-        else
-        {
-            scenesLoading.Add(SceneManager.LoadSceneAsync((int)loadScene, LoadSceneMode.Additive));
-            scenesLoading.Add(SceneManager.UnloadSceneAsync((int)unloadScene));
-        }
+      loadingScreenManager.FadeInLoadingScreen();
+      scenesLoading.Add(SceneManager.UnloadSceneAsync((int)unloadScene));
+      if (co_LoadScene != null) StopCoroutine(co_LoadScene);
+      co_LoadScene = StartCoroutine(GetProgressLoadScene((int)loadScene, onComplete));
+        
     }
     public void UnloadScene(SceneIndex unloadScene)
     {
@@ -74,12 +67,12 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         // -- Load Checkpoints --//
-        LoadScene(SceneIndex.TITLE_SCREEN, SceneIndex.ARENA, true, RelayStartGame);
+        LoadScene(SceneIndex.TITLE_SCREEN, SceneIndex.ARENA, RelayStartGame);
     }
     public void ContinueGame()
     {
         // -- Load Checkpoints --//
-        LoadScene(SceneIndex.TITLE_SCREEN, SceneIndex.ARENA, true, RelayContinueGame);
+        LoadScene(SceneIndex.TITLE_SCREEN, SceneIndex.ARENA, RelayContinueGame);
     }
     private void RelayStartGame()
     {
@@ -118,6 +111,7 @@ public class GameManager : MonoBehaviour
         loadingScreenManager.FadeOutLoadingScreen();
         onComplete?.Invoke();
         IsDoneLoading = true;
+        yield return null;
     }
     public void QuitGame()
     {

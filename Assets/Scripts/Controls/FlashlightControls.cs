@@ -37,4 +37,12 @@ public class FlashlightControls : MonoBehaviour
     {
         return flashlight.IsFlashLightActive;
     }
+    public void FlashlightTurnBased(bool value)
+    {
+        flashlight.TurnBasedControls = value;
+    }
+    public void TurnOffFlashlight()
+    {
+        flashlight.ResetFlashlight();
+    }
 }

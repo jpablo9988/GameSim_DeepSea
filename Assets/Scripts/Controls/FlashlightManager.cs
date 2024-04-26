@@ -5,18 +5,30 @@ using UnityEngine;
 public class FlashlightManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject flashlightObject;
+    private GameObject explorationFlashlightObject;
+    [SerializeField]
+    private GameObject turnBasedFlashlight;
 
     public bool IsFlashLightActive { get; private set; }
+    public bool TurnBasedControls { get; set; }
     private void OnEnable()
     {
-        flashlightObject.SetActive(false);
-        IsFlashLightActive = false;
+        TurnBasedControls = false;
+        ResetFlashlight();
     }
     public void ActivateFlashlight(bool activate)
     {
         EventManager.Instance.FlashlightEvent(activate);
-        flashlightObject.SetActive(activate);
+        if (!TurnBasedControls)
+            explorationFlashlightObject.SetActive(activate);
+        else
+            turnBasedFlashlight.SetActive(activate);
         IsFlashLightActive = activate;
+    }
+    public void ResetFlashlight()
+    {
+        explorationFlashlightObject.SetActive(false);
+        IsFlashLightActive = false;
+        turnBasedFlashlight.SetActive(false);
     }
 }

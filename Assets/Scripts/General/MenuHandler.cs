@@ -17,7 +17,7 @@ public class MenuHandler : MonoBehaviour
         //Go to main menu.
         // Save last checkpoint. 
         GameStateManager.Instance.UnpauseGame();
-        GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.TITLE_SCREEN, true);
+        GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.TITLE_SCREEN);
     }
    
 }

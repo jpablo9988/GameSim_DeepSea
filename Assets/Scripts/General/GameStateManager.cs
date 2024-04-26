@@ -69,7 +69,6 @@ public class GameStateManager : MonoBehaviour
         SaveManager.Instance.SaveData(SaveStates.POST_INTRO);
         EventManager.DialogueDone -= StartBlankSlate;
         ClearedFish = 0;
-        // Set up to dialogue.
         fishList[ClearedFish].SetActive(true);
         // Activate oxygen tick... (DEBUG) or (Tutorial).
         controlManager.PauseControls(false);
@@ -78,7 +77,6 @@ public class GameStateManager : MonoBehaviour
     }
     private void StartDialogue()
     {
-
         EventManager.DialogueDone += StartBlankSlate;
         StoryDirector.Instance.CallStory("Tutorial");
     }
@@ -90,7 +88,7 @@ public class GameStateManager : MonoBehaviour
         if ((ClearedFish >= fishList.Length) || (SaveManager.Instance.GetSaveState() == SaveStates.VICTORY))
         {
             SaveManager.Instance.ResetSavedData();
-            GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.THE_END, true);
+            GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.THE_END);
         }
         else
         {

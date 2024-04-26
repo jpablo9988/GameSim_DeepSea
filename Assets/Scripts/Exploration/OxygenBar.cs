@@ -53,7 +53,7 @@ public class OxygenBar : MonoBehaviour
             OxygenActive = false;
             // -- For Testing. End Game -- //
             SaveManager.Instance.ResetSavedData();
-            GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.THE_END, true);
+            GameManager.Instance.LoadScene(SceneIndex.ARENA, SceneIndex.THE_END);
         }
     }
 

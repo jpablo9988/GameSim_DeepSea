@@ -65,15 +65,19 @@ public class ControlsManager : MonoBehaviour
     {
         IsTurnBased = value;
         turnBasedLocal = IsTurnBased;
+        _flashControls.TurnOffFlashlight();
+        _flashControls.FlashlightTurnBased(value);
         _tbControls.ActivateControls(value);
         _fpControls.ActivateControls(!value);
 
     }
     private void FinishTurnBased()
     {
+        _flashControls.TurnOffFlashlight();
         IsTurnBased = false;
         turnBasedLocal = IsTurnBased;
         PauseControls(false);
+        _flashControls.FlashlightTurnBased(false);
     }
     public void PauseControls(bool value)
     {

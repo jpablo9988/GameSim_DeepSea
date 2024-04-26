@@ -12,6 +12,6 @@ public class EndGameManager : MonoBehaviour
     public void BackToMenu()
     {
 
-        GameManager.Instance.LoadScene(SceneIndex.THE_END, SceneIndex.TITLE_SCREEN, true);
+        GameManager.Instance.LoadScene(SceneIndex.THE_END, SceneIndex.TITLE_SCREEN);
     }
 }
